@@ -1,4 +1,13 @@
-# Install basic components
+#!/bin/bash
+
+# Check if the script is running as root user
+if ["$(id -u)"!="0"]; then
+    echo "This script must be run as root."
+    echo "Please try using the 'sudo -i' command to switch to the root user, and then run this script again."
+    exit 1;
+fi
+
+# Install basic components and update.
 sudo apt-get update 
 
 # Check docker whether it is installed.
