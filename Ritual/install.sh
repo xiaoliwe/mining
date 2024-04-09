@@ -19,6 +19,9 @@ function init_node()
     # Prompt the user to set up port.
     read -p "enter port: " port1
 
+    # Prompt the RPC address
+    read -p "enter RPC address: " rpc_address
+
     # Prompt user to set-up the Port
     read -p "Enter docker hub's username: " username
     read -p "Enter docker hub's password: " password
@@ -61,7 +64,7 @@ function init_node()
     "chain": {
         "enabled": true,
         "trail_head_blocks": 5,
-        "rpc_url": "https://base-rpc.publicnode.com",
+        "rpc_url": "$rpc_address",
         "coordinator_address": "0x8D871Ef2826ac9001fB2e33fDD6379b6aaBF449c",
         "wallet": {
         "max_gas_limit": 5000000,
