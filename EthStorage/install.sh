@@ -37,6 +37,8 @@ then
     curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
     sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
     docker compose version
+    
+    echo "=========================Installation completed================================"
 
 else
     echo "Docker installed on server,continuing to execute commands for runing es-node..."
@@ -44,7 +46,7 @@ fi
 
 # starting docker
 docker compose up -d
-echo "=========================Installation completed================================"
+
 echo "Next, we will proceed with the node initialization configuration. Please enter the relevant information as prompted."
 
 read -p "Enter the storage miner's address: " miner_address
