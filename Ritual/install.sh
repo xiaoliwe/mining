@@ -16,6 +16,9 @@ function init_node()
     # Prompt the user to enter the private key.
     read -p "Enter the EVM wallet private key, it must start with 0x, and it is recommended to use a new wallet: " private_key
 
+    # Prompt the user to set up port.
+    read -p "enter port: " port1
+
     # Prompt user to set-up the Port
     read -p "Enter docker hub's username: " username
     read -p "Enter docker hub's password: " password
