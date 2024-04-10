@@ -144,13 +144,13 @@ function check_service_status()
 function main()
 {
     clear
-    echo : "
+    echo "
 __  _____    _    ___  _     ___   ____  _______     __
 \ \/ /_ _|  / \  / _ \| |   |_ _| |  _ \| ____\ \   / /
  \  / | |  / _ \| | | | |    | |  | | | |  _|  \ \ / / 
  /  \ | | / ___ \ |_| | |___ | | _| |_| | |___  \ V /  
 /_/\_\___/_/   \_\___/|_____|___(_)____/|_____|  \_/   
-    \n"
+        "
     echo "Welcome to use this script to install Ritual's services."
     echo "================================================================"
     echo "Please select the operation to be performed:"
