@@ -85,7 +85,30 @@ function init_node()
     },
     "forward_stats": true,
     "startup_wait": 1.0,
-    
+     "containers": [
+        {
+            "id": "hello-world",
+            "image": "ritualnetwork/hello-world-infernet:latest",
+            "external": true,
+            "port": "3000",
+            "allowed_delegate_addresses": [],
+            "allowed_addresses": [],
+            "allowed_ips": [],
+            "command": "--bind=0.0.0.0:3000 --workers=2",
+            "env": {}
+        },
+        {
+            "id": "anvil-node", 
+            "image": "ritualnetwork/infernet-anvil:0.0.0", 
+            "external": true, 
+            "port": "8545", 
+            "allowed_delegate_addresses": [], 
+            "allowed_addresses" : [], 
+            "allowed_ips": [1, 
+            "command": "", 
+            "env": {}
+        }
+    ]
     }
 EOF
     echo "config.json created."
