@@ -48,7 +48,7 @@ function init_node()
     #tag="0.2.0"
 
     # build image 
-    docker build -t ritualnetwork/infernet-node:latest .
+    docker build -t ritualnetwork/infernet-node:0.2.0 .
 
     # enter the folder
     cd deploy
@@ -72,8 +72,8 @@ function init_node()
         }
     },
     "snapshot_sync": {
-        "sleep": 1.5,
-        "batch_size": 200
+        "sleep": 5,
+        "batch_size": 100
     },
     "docker": {
         "username": "$username",
@@ -84,7 +84,8 @@ function init_node()
         "port": 6379
     },
     "forward_stats": true,
-    "startup_wait": 1.0
+    "startup_wait": 1.0,
+    "containers": []
     }
 EOF
     echo "config.json created."
@@ -116,7 +117,7 @@ then
     sudo apt-get install docker-ce docker-ce-cli containerd.io -y 
     DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
     mkdir -p $DOCKER_CONFIG/cli-plugins
-    curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+    curl -SL https://github.com/docker/compose/releases/download/v2.26.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
     sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
     docker compose version
 
