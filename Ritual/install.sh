@@ -45,10 +45,10 @@ function init_node()
     cd infernet-node
 
     #set tag is 0.2.0
-    #tag="0.2.0"
+    tag="0.2.0"
 
     # build image 
-    docker build -t ritualnetwork/infernet-node:0.2.0 .
+    docker build -t ritualnetwork/infernet-node:$tag .
 
     # enter the folder
     cd deploy
@@ -125,11 +125,11 @@ else
     echo "Docker installed on server."
 fi
 
-# starting docker
-docker compose up -d
-
 echo "=========================Installation completed================================"
-echo "Please use cd infernet-node/deploy to enter the directory, and then use docker compose logs -f to query the logs."
+echo "Please use ** cd infernet-node/deploy ** to enter the directory, and then modify the content of docker-compose.yaml as bellow: "
+echo "Checking#01: The image version is: $tag"
+echo "Checking#02: port is $port1 "
+echo "If all correct, please use ** docker compose up -d ** to start the node."
 
 }
 
