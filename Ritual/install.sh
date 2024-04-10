@@ -45,10 +45,10 @@ function init_node()
     cd infernet-node
 
     #set tag is 0.2.0
-    tag="0.2.0"
+    #tag="0.2.0"
 
     # build image 
-    docker build -t ritualnetwork/infernet-node:$tag .
+    docker build -t ritualnetwork/infernet-node:latest .
 
     # enter the folder
     cd deploy
@@ -85,7 +85,7 @@ function init_node()
     },
     "forward_stats": true,
     "startup_wait": 1.0,
-     "containers": [
+    "containers": [
         {
             "id": "hello-world",
             "image": "ritualnetwork/hello-world-infernet:latest",
