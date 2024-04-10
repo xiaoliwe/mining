@@ -68,7 +68,7 @@ function init_node()
         "coordinator_address": "0x8D871Ef2826ac9001fB2e33fDD6379b6aaBF449c",
         "wallet": {
         "max_gas_limit": 5000000,
-        "private_key": "$private_key"
+        "private_key": "0x$private_key"
         }
     },
     "snapshot_sync": {

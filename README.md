@@ -16,4 +16,7 @@ For the mining code of the blockchain.
     to initial the mining environment  
 
 2. The official docs is here: https://docs.ethstorage.io/storage-provider-guide/tutorials  
-3. You need to have a account of [BlockPI](https://dashboard.blockpi.io) to get RPC's address and [QuickNode](https://dashboard.quicknode.com/) to get the Sepolia's endpoint address.  
+3. You need to have a account of [BlockPI](https://dashboard.blockpi.io) to get RPC's address and [QuickNode](https://dashboard.quicknode.com/) to get the Sepolia's endpoint address. 
+
+#### how to check the running state?
+- You need to run `docker logs -f es` in the terminal.  
