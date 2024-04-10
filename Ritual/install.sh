@@ -144,7 +144,12 @@ function check_service_status()
 function main()
 {
     clear
-    echo "Follow xiaoli.dev."
+    echo "      _             _ _      _            
+__  _(_) __ _  ___ | (_)  __| | _____   __
+\ \/ / |/ _` |/ _ \| | | / _` |/ _ \ \ / /
+ >  <| | (_| | (_) | | || (_| |  __/\ V / 
+/_/\_\_|\__,_|\___/|_|_(_)__,_|\___| \_/  "
+    echo "Welcome to use this script to install Ritual's services."
     echo "================================================================"
     echo "Please select the operation to be performed:"
     echo "1. Install node"

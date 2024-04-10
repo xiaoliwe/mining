@@ -7,7 +7,7 @@ For the mining code of the blockchain.
 1. The node installation command is as follows::  
     `wget -O ritual_install.sh https://raw.githubusercontent.com/xiaoliwe/mining/main/Ritual/install.sh && chmod +x ritual_install.sh && ./ritual_install.sh`   
     to initial the mining environment.  
-2. You need to set-up the API Keys with [ZAN.TOP](https://zan.top) to get BASE's HTTPS link.  
+2. You need to set-up the API Keys with [ZAN.TOP](https://zan.top) or [Alchemy](https://dashboard.alchemy.com/) to get BASE's HTTPS link.  
    
 
 ### For EthStorage Mining
