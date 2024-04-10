@@ -42,7 +42,7 @@ function init_node()
     git clone https://github.com/ritual-net/infernet-node
 
     # Entrance infernet-deploy folder
-    cd infernet-deploy
+    cd infernet-node
 
     #set tag is 0.2.0
     tag="0.2.0"
