@@ -104,7 +104,7 @@ function init_node()
             "port": "8545", 
             "allowed_delegate_addresses": [], 
             "allowed_addresses" : [], 
-            "allowed_ips": [1, 
+            "allowed_ips": [1], 
             "command": "", 
             "env": {}
         }
