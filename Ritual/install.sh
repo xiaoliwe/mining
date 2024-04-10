@@ -10,6 +10,32 @@ fi
 # The location of the script 
 SCRIPT_PATH="$HOME/Ritual/install.sh"
 
+# Auto set quick key
+function check_and_set_alias()
+{
+    local alias_name="rit"
+    local shell_rc="$HOME/.bashrc"
+
+    # for zsh user
+    if [ -n "$ZSH_VERSION" ]; then
+        shell_rc="$HOME/.zshrc"
+    elif [ -n "$BASH_VERSION" ]; then
+        shell_rc="$HOME/.bashrc"
+    fi
+
+    # Check the alias whether it's working?
+    if ! grep -q "$alias_name" "$shell_rc"; then
+        echo "Set shortcut keys '$alias_name' To $shell_rc"
+        echo "alias $alias_name='bash $SCRIPT_PATH'" >> "$shell_rc"
+        # Add a reminder for users to activate the shortcut key information
+        echo "Shortcut Key '$alias_name' has setup。run 'source $shell_rc' to activate it，or reopen the terminal."
+    else
+        # If the shortcut key has been set
+        echo "Shortcut Key '$alias_name' already set to $shell_rc。"
+        echo "If the shortcut key does not work, please try running 'source $shell_rc' or reopen the terminal."
+    fi
+}
+
 # Node installation
 function init_node()
 {
@@ -156,11 +182,13 @@ __  _____    _    ___  _     ___   ____  _______     __
     echo "Please select the operation to be performed:"
     echo "1. Install node"
     echo "2. View node logs"
+    echo "3. Set quick key"
     read -p "Please enter an option (1-2): " OPTION
 
     case $OPTION in
     1) init_node;;
     2) check_service_status;;
+    3) check_and_set_alias;;
     *) echo "Invalid option, please try again.";;
     esac
 }
