@@ -75,7 +75,6 @@ function init_titan_node()
     titan-edge bind --hash=$identity_code https://api-test1.container1.titannet.io/api/v2/device/binding
 
     echo "=========================Installation completed================================"
-    echo "=========================Thanks for your joing us.================================"
 }
 
 function exit_shell()
