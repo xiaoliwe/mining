@@ -6,6 +6,8 @@ if ["$(id -u)"!="0"]; then
     echo "Please try using the 'sudo -i' command to switch to the root user, and then run this script again."
     exit 1;
 fi
+function init_docker()
+{
     # Install basic components and update.
     sudo apt-get update 
 
@@ -40,11 +42,14 @@ fi
         echo "=========================Installation completed================================"
 
     else
-        echo "Docker installed on server,continuing to execute commands for runing es-node..."
+        echo "Docker installed on server,continuing to execute commands for install titan node..."
     fi
+}
 
 function init_titan_node()
 {
+    init_docker
+
     echo "Next, you need to get the Identity code via https://test1.titannet.io/newoverview/activationcodemanagement."
     read -p "Identity code: " identity_code
 
