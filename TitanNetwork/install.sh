@@ -37,7 +37,9 @@ function init_docker()
         mkdir -p $DOCKER_CONFIG/cli-plugins
         curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
         sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-        docker compose version
+
+        apt-get install docker-compose -y
+        docker-compose version
         
         echo "=========================Installation completed================================"
 
