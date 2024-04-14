@@ -100,3 +100,6 @@ __  _____    _    ___  _     ___   ____  _______     __
     *) echo "Invalid option, please try again.";;
     esac
 }
+
+# main
+main
