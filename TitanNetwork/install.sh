@@ -44,27 +44,59 @@ else
     echo "Docker installed on server,continuing to execute commands for runing es-node..."
 fi
 
-echo "Next, you need to get the Identity code via https://test1.titannet.io/newoverview/activationcodemanagement."
-read -p "Identity code: " identity_code
+function init_titan_node()
+{
+    echo "Next, you need to get the Identity code via https://test1.titannet.io/newoverview/activationcodemanagement."
+    read -p "Identity code: " identity_code
 
-# Download image
-docker pull nezha123/titan-edge
+    # Download image
+    docker pull nezha123/titan-edge
 
-# Create your own volume
-mkdir ~/.titanedge
+    # Create your own volume
+    mkdir ~/.titanedge
 
-# Running node
-docker run -d -v ~/.titanedge:/root/.titanedge nezha123/titan-edge
+    # Running node
+    docker run -d -v ~/.titanedge:/root/.titanedge nezha123/titan-edge
 
-# Get the continater ID
-container_id=$(docker ps -q --filter "name=nezha123/titan-edge")
+    # Get the continater ID
+    container_id=$(docker ps -q --filter "name=nezha123/titan-edge")
 
-echo "TitanNetwork's ContainerID is: $container_id"
+    echo "TitanNetwork's ContainerID is: $container_id"
 
-# Enter continer with Continer ID
-docker exec -it $container_id /bin/bash
+    # Enter continer with Continer ID
+    docker exec -it $container_id /bin/bash
 
-titan-edge bind --hash=$identity_code https://api-test1.container1.titannet.io/api/v2/device/binding
+    titan-edge bind --hash=$identity_code https://api-test1.container1.titannet.io/api/v2/device/binding
 
-echo "=========================Installation completed================================"
-echo "=========================Thanks for your joing us.================================"
+    echo "=========================Installation completed================================"
+    echo "=========================Thanks for your joing us.================================"
+}
+
+function exit_shell()
+{
+    exit 0
+}
+
+function main()
+{
+    clear
+    echo "
+__  _____    _    ___  _     ___   ____  _______     __
+\ \/ /_ _|  / \  / _ \| |   |_ _| |  _ \| ____\ \   / /
+ \  / | |  / _ \| | | | |    | |  | | | |  _|  \ \ / / 
+ /  \ | | / ___ \ |_| | |___ | | _| |_| | |___  \ V /  
+/_/\_\___/_/   \_\___/|_____|___(_)____/|_____|  \_/   
+        "
+    echo "Welcome to use this script to init TitanNetwork node."
+    echo "================================================================"
+    echo "Please select the operation to be performed:"
+    echo "1. Install node"
+    echo "2. Exit"
+    read -p "Please enter an option (1-2): " OPTION
+
+    case $OPTION in
+    1) init_titan_node;;
+    2) exit_shell;;
+    *) echo "Invalid option, please try again.";;
+    esac
+}

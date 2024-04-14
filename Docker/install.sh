@@ -45,7 +45,7 @@ function exit()
 
 function main()
 {
- clear
+    clear
     echo "
 __  _____    _    ___  _     ___   ____  _______     __
 \ \/ /_ _|  / \  / _ \| |   |_ _| |  _ \| ____\ \   / /
