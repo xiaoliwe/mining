@@ -65,7 +65,7 @@ function init_titan_node()
     docker run -d -v ~/.titanedge:/root/.titanedge nezha123/titan-edge
 
     # Get the continater ID
-    container_id=$(docker ps -q --filter="NAME={nezha123/titan-edge}")
+    container_id=$(docker container ls  | grep 'nezha123/titan-edge' | awk '{print $1}')
 
     echo "TitanNetwork's ContainerID is: $container_id"
 
