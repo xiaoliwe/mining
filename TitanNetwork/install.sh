@@ -6,9 +6,6 @@ if ["$(id -u)"!="0"]; then
     echo "Please try using the 'sudo -i' command to switch to the root user, and then run this script again."
     exit 1;
 fi
-
-function install_docker()
-{
     # Install basic components and update.
     sudo apt-get update 
 
@@ -46,10 +43,6 @@ function install_docker()
         echo "Docker installed on server,continuing to execute commands for runing es-node..."
     fi
 
-    # install titan's node
-    init_titan_node
-}
-
 function init_titan_node()
 {
     echo "Next, you need to get the Identity code via https://test1.titannet.io/newoverview/activationcodemanagement."
@@ -65,7 +58,7 @@ function init_titan_node()
     docker run -d -v ~/.titanedge:/root/.titanedge nezha123/titan-edge
 
     # Get the continater ID
-    container_id=$(docker ps -q --filter "name=nezha123/titan-edge")
+    container_id=$(docker ps -q --filter="NAME={nezha123/titan-edge}")
 
     echo "TitanNetwork's ContainerID is: $container_id"
 
@@ -96,15 +89,13 @@ __  _____    _    ___  _     ___   ____  _______     __
     echo "Welcome to use this script to init TitanNetwork node."
     echo "================================================================"
     echo "Please select the operation to be performed:"
-    echo "1. install_docker or skip"
-    echo "2. Install node"
-    echo "3. Exit"
+    echo "1. Install node"
+    echo "2. Exit"
     read -p "Please enter an option (1-2): " OPTION
 
     case $OPTION in
-    1) install_docker;;
-    2) init_titan_node;;
-    3) exit_shell;;
+    1) init_titan_node;;
+    2) exit_shell;;
     *) echo "Invalid option, please try again.";;
     esac
 }
