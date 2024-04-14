@@ -25,5 +25,5 @@ For the mining code of the blockchain.
 
 ### For Docker's environment
 1. The docker installation command is as follows  
-   `wget -O docker_install.sh https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/install.sh && chmod +x docker_install.sh && ./docker_install.sh`   
+   `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/install.sh)"`   
    
