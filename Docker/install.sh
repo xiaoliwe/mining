@@ -61,7 +61,7 @@ __  _____    _    ___  _     ___   ____  _______     __
     read -p "Please enter an option (1-2): " OPTION
 
     case $OPTION in
-    1) init_node;;
+    1) Init_docker;;
     2) exit;;
     *) echo "Invalid option, please try again.";;
     esac
