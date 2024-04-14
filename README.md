@@ -2,6 +2,7 @@
 For the mining code of the blockchain.
 
 ## How to use  
+All the mining's scripts used for the Ubuntu 22.x linux distribution. if you want to use CentOS instead, please replace the command line with `yum` instead of `apt-get`  .  
 
 ### For Ritual Mining
 1. The node installation command is as follows::  
