@@ -7,42 +7,48 @@ if ["$(id -u)"!="0"]; then
     exit 1;
 fi
 
-# Install basic components and update.
-sudo apt-get update 
+function install_docker()
+{
+    # Install basic components and update.
+    sudo apt-get update 
 
-# Check docker whether it is installed.
-if ! command -v docker &> /dev/null
-then
-    # if docker can't install on server
-    echo "Docker not dectected,installing..."
-    sudo apt install ca-certificates curl gnupg lsb-release
+    # Check docker whether it is installed.
+    if ! command -v docker &> /dev/null
+    then
+        # if docker can't install on server
+        echo "Docker not dectected,installing..."
+        sudo apt install ca-certificates curl gnupg lsb-release
 
-    # added gpg key of docker's
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        # added gpg key of docker's
+        sudo mkdir -p /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-    # set the repo of docker
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        # set the repo of docker
+        echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-    # Authorized Docker file
-    sudo chmod a+r /etc/apt/keyrings/docker.gpg
-    sudo apt update
+        # Authorized Docker file
+        sudo chmod a+r /etc/apt/keyrings/docker.gpg
+        sudo apt update
 
-    # Install the latest version of Docker
-    sudo apt-get install docker-ce docker-ce-cli containerd.io -y 
-    DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-    mkdir -p $DOCKER_CONFIG/cli-plugins
-    curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
-    sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-    docker compose version
-    
-    echo "=========================Installation completed================================"
+        # Install the latest version of Docker
+        sudo apt-get install docker-ce docker-ce-cli containerd.io -y 
+        DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+        mkdir -p $DOCKER_CONFIG/cli-plugins
+        curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+        sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+        docker compose version
+        
+        echo "=========================Installation completed================================"
 
-else
-    echo "Docker installed on server,continuing to execute commands for runing es-node..."
-fi
+    else
+        echo "Docker installed on server,continuing to execute commands for runing es-node..."
+    fi
+
+    # install titan's node
+    init_titan_node
+}
 
 function init_titan_node()
 {
@@ -90,13 +96,15 @@ __  _____    _    ___  _     ___   ____  _______     __
     echo "Welcome to use this script to init TitanNetwork node."
     echo "================================================================"
     echo "Please select the operation to be performed:"
-    echo "1. Install node"
-    echo "2. Exit"
+    echo "1. install_docker or skip"
+    echo "2. Install node"
+    echo "3. Exit"
     read -p "Please enter an option (1-2): " OPTION
 
     case $OPTION in
-    1) init_titan_node;;
-    2) exit_shell;;
+    1) install_docker;;
+    2) init_titan_node;;
+    3) exit_shell;;
     *) echo "Invalid option, please try again.";;
     esac
 }
