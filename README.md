@@ -27,6 +27,8 @@ All the mining's scripts used for the Ubuntu 22.x linux distribution. if you wan
 ### For Docker's environment
 1. The docker installation command is as follows  
    `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/install.sh)"`   
+   or  
+2. `curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/install.sh | sudo bash`    
    
 
 ### For TitanNetwork Mining  
