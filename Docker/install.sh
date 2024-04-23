@@ -1,15 +1,16 @@
 #!/bin/bash 
 
+# 检查是否以 root 用户运行
+if [[ $EUID -ne 0 ]]; then
+    echo "请以 root 用户运行此脚本。" 
+    exit 1
+fi
+        
 function Init_docker()
 {
     # Check docker whether it is installed.
     if ! command -v docker &> /dev/null
     then
-        # 检查是否以 root 用户运行
-        if [[ $EUID -ne 0 ]]; then
-        echo "请以 root 用户运行此脚本。" 
-        exit 1
-        fi
 
         # 更新软件包列表
         apt-get update
