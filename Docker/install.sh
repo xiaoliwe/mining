@@ -5,30 +5,38 @@ function Init_docker()
     # Check docker whether it is installed.
     if ! command -v docker &> /dev/null
     then
-        # if docker can't install on server
-        echo "Docker not dectected,installing..."
-        sudo apt install ca-certificates curl gnupg lsb-release
+        # 检查是否以 root 用户运行
+        if [[ $EUID -ne 0 ]]; then
+        echo "请以 root 用户运行此脚本。" 
+        exit 1
+        fi
 
-        # added gpg key of docker's
-        sudo mkdir -p /etc/apt/keyrings
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        # 更新软件包列表
+        apt-get update
 
-        # set the repo of docker
-        echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        # 安装必要的依赖项
+        apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
-        # Authorized Docker file
-        sudo chmod a+r /etc/apt/keyrings/docker.gpg
-        sudo apt update
+        # 添加 Docker 的官方 GPG 密钥
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
-        # Install the latest version of Docker
-        sudo apt-get install docker-ce docker-ce-cli containerd.io -y 
-        DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-        mkdir -p $DOCKER_CONFIG/cli-plugins
-        curl -SL https://github.com/docker/compose/releases/download/v2.26.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
-        sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-        docker compose version
+        # 设置 Docker 的稳定版仓库
+        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+        # 再次更新软件包列表
+        apt-get update
+
+        # 安装最新版本的 Docker 引擎、容器运行时和 Docker Compose
+        apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
+
+        # 启动 Docker 守护进程并设置开机自启
+        systemctl start docker
+        systemctl enable docker
+
+        # 输出 Docker 版本信息
+        docker --version
+
+        echo "Docker 安装完成。"
 
     else
         echo "Docker installed on server."
