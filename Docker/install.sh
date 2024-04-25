@@ -5,8 +5,36 @@ if [[ $EUID -ne 0 ]]; then
     echo "请以 root 用户运行此脚本。" 
     exit 1
 fi
-        
-function Init_docker()
+function CentOS_install_docker()
+{
+
+    # 更新yum包
+    sudo yum update -y
+
+    # 安装需要的依赖包
+    sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+    # 添加Docker官方仓库
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+    # 安装Docker
+    sudo yum install -y docker-ce docker-ce-cli containerd.io
+
+    # 启动Docker服务
+    sudo systemctl start docker
+
+    # 设置开机自启动
+    sudo systemctl enable docker
+
+    # 验证Docker是否安装成功
+    sudo docker run hello-world
+
+    # 将当前用户添加到docker组,避免每次使用docker命令都需要sudo
+    sudo usermod -aG docker $USER
+
+    echo "Docker installed successfully. Please log out and log back in for the group membership to take effect."
+}
+function Ubuntu_install_docker()
 {
     # Check docker whether it is installed.
     if ! command -v docker &> /dev/null
@@ -44,6 +72,20 @@ function Init_docker()
     fi
 
     echo "=========================Installation completed================================"
+}     
+# 判断操作系统版本并调用相应的函数
+function check_os_and_install_docker() 
+{
+    if [ -f /etc/lsb-release ]; then
+        # Ubuntu
+        Ubuntu_install_docker
+    elif [ -f /etc/redhat-release ]; then
+        # CentOS
+        CentOS_install_docker
+    else
+        echo "Unsupported operating system."
+        exit 1
+    fi
 }
 
 function exit()
@@ -70,7 +112,7 @@ __  _____    _    ___  _     ___   ____  _______     __
     read -p "Please enter an option (1-2): " OPTION
 
     case $OPTION in
-    1) Init_docker;;
+    1) check_os_and_install_docker;;
     2) exit;;
     *) echo "Invalid option, please try again.";;
     esac
