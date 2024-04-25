@@ -77,9 +77,11 @@ function Ubuntu_install_docker()
 function check_os_and_install_docker() 
 {
     if [ -f /etc/lsb-release ]; then
+        echo "Starting to install Docker for Ubuntu..."
         # Ubuntu
         Ubuntu_install_docker
     elif [ -f /etc/redhat-release ]; then
+        echo "Starting to install Docker for CentOS..."
         # CentOS
         CentOS_install_docker
     else
