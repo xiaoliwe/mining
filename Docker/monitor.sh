@@ -19,7 +19,7 @@ read -p "请输入监控时间间隔 (分钟): " INTERVAL
 
 # 生成脚本文件名和日志文件名
 SCRIPT_FILE="monitor_${CONTAINER_NAME}_docker.sh"
-LOG_FILE="monitor_${CONTAINER_NAME}_docker.txt"
+LOG_FILE="monitor_${CONTAINER_NAME}_docker.log"
 
 # 提示用户日志文件位置
 echo "监控日志将保存到: $LOG_FILE"
