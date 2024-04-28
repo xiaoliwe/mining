@@ -7,6 +7,20 @@ if ["$(id -u)"!="0"]; then
     exit 1;
 fi
 
+function monitor_docker()
+{
+
+# 检查是否安装了 docker
+if ! command -v docker &> /dev/null
+then   
+    echo "docker 未安装，请先安装 docker"
+    exit 1
+elfi
+    echo "使用 docker 的程序列表如下,请确认需要监控的容器是否在列表中"
+    docker ps -a
+fi
+
+sleep 3
 
 # 提示用户输入容器名称和监控时间间隔
 read -p "请输入要监控的容器名称: " CONTAINER_NAME
@@ -55,3 +69,34 @@ crontab -l | { cat; echo "*/$INTERVAL * * * * ./$SCRIPT_FILE"; } | crontab -
 ./"$SCRIPT_FILE"
 
 echo "监控已启动，请查看日志文件 $LOG_FILE 获取详细信息。"
+}
+
+function exit_shell()
+{
+    clear
+    exit 0
+}
+
+function main()
+{
+    clear
+    echo "
+__  _____    _    ___  _     ___   ____  _______     __
+\ \/ /_ _|  / \  / _ \| |   |_ _| |  _ \| ____\ \   / /
+ \  / | |  / _ \| | | | |    | |  | | | |  _|  \ \ / / 
+ /  \ | | / ___ \ |_| | |___ | | _| |_| | |___  \ V /  
+/_/\_\___/_/   \_\___/|_____|___(_)____/|_____|  \_/   
+        "
+    echo "Welcome to use this script to monitor docker node."
+    echo "================================================================"
+    echo "Please select the operation to be performed:"
+    echo "1. Install monitor's scripts"
+    echo "2. Exit"
+    read -p "Please enter an option (1-2): " OPTION
+
+    case $OPTION in
+    1) monitor_docker;;
+    2) exit_shell;;
+    *) echo "Invalid option, please try again.";;
+    esac
+}
