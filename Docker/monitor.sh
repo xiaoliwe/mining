@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# Check if the script is running as root user
-if ["$(id -u)"!="0"]; then
-    echo "This script must be run as root."
-    echo "Please try using the 'sudo -i' command to switch to the root user, and then run this script again."
-    exit 1;
+# 检查是否以 root 用户运行
+if [[ $EUID -ne 0 ]]; then
+    echo "请以 root 用户运行此脚本。" 
+    exit 1
 fi
 
 function monitor_docker()
