@@ -64,6 +64,12 @@ crontab -l | { cat; echo "*/$INTERVAL * * * * ./$SCRIPT_FILE"; } | crontab -
 ./"$SCRIPT_FILE"
 
 echo "监控已启动，请查看日志文件 $LOG_FILE 获取详细信息。"
+read -p "是否现在查看日志文件？(y/n): " VIEW_LOG
+if [[ "$VIEW_LOG" == "y" ]]; then
+  tail -f "$LOG_FILE"
+else
+  exit 0
+fi
 }
 
 function exit_shell()
