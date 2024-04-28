@@ -44,9 +44,13 @@ CURRENT_TIME=\$(date +"%Y-%m-%d %H:%M:%S")
 echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康状态：\$HEALTH_STATUS" >> "$LOG_FILE"
 
 # 如果健康状态不是 "healthy"，则重启容器
-if [[ "\$HEALTH_STATUS" != "healthy" ]]; then
+if [[ "\$HEALTH_STATUS" != "running" ]]; then
   echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康检查失败，正在重启..." >> "$LOG_FILE"
   docker restart \$CONTAINER_NAME
+
+elfi
+  echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康检查成功,正在运行...。" >> "$LOG_FILE"
+  exit 0
 fi
 EOF
 
