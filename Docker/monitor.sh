@@ -9,17 +9,9 @@ fi
 function monitor_docker()
 {
 
-# 检查是否安装了 docker
-if ! command -v docker &> /dev/null
-then   
-    echo "docker 未安装，请先安装 docker"
-    exit 1
-elfi
-    echo "使用 docker 的程序列表如下,请确认需要监控的容器是否在列表中"
-    docker ps -a
-fi
-
-sleep 3
+# 列出所有容器
+echo "当前所有容器列表："
+docker ps -a
 
 # 提示用户输入容器名称和监控时间间隔
 read -p "请输入要监控的容器名称: " CONTAINER_NAME
