@@ -43,7 +43,7 @@ CURRENT_TIME=\$(date +"%Y-%m-%d %H:%M:%S")
 # 将检查结果输出到日志文件
 echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康状态：\$HEALTH_STATUS" >> "$LOG_FILE"
 
-# 如果健康状态不是 "healthy"，则重启容器
+# 如果健康状态不是 "running"，则重启容器
 if [[ "\$HEALTH_STATUS" != "running" ]]; then
   echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康检查失败，正在重启..." >> "$LOG_FILE"
   docker restart \$CONTAINER_NAME
@@ -66,7 +66,8 @@ crontab -l | { cat; echo "*/$INTERVAL * * * * ./$SCRIPT_FILE"; } | crontab -
 echo "监控已启动，请查看日志文件 $LOG_FILE 获取详细信息。"
 read -p "是否现在查看日志文件？(y/n): " VIEW_LOG
 if [[ "$VIEW_LOG" == "y" ]]; then
-  tail -f "$LOG_FILE"
+  cat "$LOG_FILE"
+  exit 0
 else
   exit 0
 fi
