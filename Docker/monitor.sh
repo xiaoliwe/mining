@@ -32,7 +32,7 @@ cat << EOF > "$SCRIPT_FILE"
 CONTAINER_NAME="$CONTAINER_NAME"
 
 # 健康检查命令
-HEALTH_CHECK_CMD="docker inspect --format='{{.State.Health.Status}}' \$CONTAINER_NAME"
+HEALTH_CHECK_CMD="docker inspect --format='{{.State.Status}}' \$CONTAINER_NAME"
 
 # 检查容器健康状态
 HEALTH_STATUS=\$(eval \$HEALTH_CHECK_CMD)
@@ -48,7 +48,7 @@ if [[ "\$HEALTH_STATUS" != "running" ]]; then
   echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康检查失败，正在重启..." >> "$LOG_FILE"
   docker restart \$CONTAINER_NAME
 
-elfi
+el
   echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康检查成功,正在运行...。" >> "$LOG_FILE"
   exit 0
 fi
