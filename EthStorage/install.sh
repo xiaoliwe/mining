@@ -69,3 +69,13 @@ docker run --name es  -d  \
 
 echo "Checking the status of docker..." 
 docker logs -f es 
+
+echo "-------------------------Starting installation the script of monitor-------------------------"
+    read -p "是否需要安装监控脚本？(y/n): " is_install_monitor
+    if [ $is_install_monitor == "y" ]; then
+        # Install monitor script
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/monitor.sh)"
+    else
+        exit 0
+
+    fi

@@ -157,6 +157,16 @@ echo "Checking#01: The image version is: $tag"
 echo "Checking#02: port is $port1 "
 echo "If all correct, please use ** docker compose up -d ** to start the node."
 
+echo "-------------------------Starting installation the script of monitor-------------------------"
+    read -p "是否需要安装监控脚本？(y/n): " is_install_monitor
+    if [ $is_install_monitor == "y" ]; then
+        # Install monitor script
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/monitor.sh)"
+    else
+        exit 0
+
+    fi
+
 }
 
 # View node logs
