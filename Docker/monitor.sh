@@ -43,8 +43,6 @@ echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 运行状态：\$CONTAINER_STATUS"
 if [[ "\$CONTAINER_STATUS" != "running" ]]; then
   echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 状态为 \$CONTAINER_STATUS，正在尝试重启..." >> "$LOG_FILE"
   docker start $CONTAINER_NAME
-else
-  echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 正在运行中。" >> "$LOG_FILE"
 fi
 EOF
 
