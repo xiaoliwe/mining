@@ -74,7 +74,20 @@ function init_titan_node()
 
     titan-edge bind --hash=$identity_code https://api-test1.container1.titannet.io/api/v2/device/binding
 
-    echo "=========================Installation completed================================"
+    echo "=========================Mining script installation completed================================"
+
+    # Exit current docker of TitanNetwork
+    exit
+
+    echo "-------------------------Starting installation the script of monitor-------------------------"
+    read -p "是否需要安装监控脚本？(y/n): " is_install_monitor
+    if [ $is_install_monitor == "y" ]; then
+        # Install monitor script
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/monitor.sh)"
+    else
+        exit 0
+
+    fi
 }
 
 function exit_shell()
