@@ -41,12 +41,15 @@ echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 运行状态：\$CONTAINER_STATUS"
 
 # 根据容器的运行状态进行操作
 if [[ "\$CONTAINER_STATUS" != "running" ]]; then
-  echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 不在运行状态，状态为 \$CONTAINER_STATUS，正在尝试重启..." >> "$LOG_FILE"
+  echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 状态为 \$CONTAINER_STATUS，正在尝试重启..." >> "$LOG_FILE"
   docker start $CONTAINER_NAME
 else
   echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 正在运行中。" >> "$LOG_FILE"
 fi
 EOF
+
+# 赋予脚本可执行权限
+chmod +x "$PWD/$SCRIPT_FILE"
 
 # 定义新的 cron 任务
 NEW_CRON_JOB="*/$INTERVAL * * * * bash $PWD/$SCRIPT_FILE"
@@ -62,6 +65,7 @@ else
     (crontab -l 2>/dev/null; echo "$NEW_CRON_JOB") | crontab -
     echo "\$CURRENT_TIME - 容器 ${CONTAINER_NAME} 监控任务添加成功." >> "$LOG_FILE" 
 fi
+
 
 # 执行脚本一次
 bash "$SCRIPT_FILE"
