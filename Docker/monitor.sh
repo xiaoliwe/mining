@@ -13,6 +13,8 @@ function monitor_docker()
 echo "当前所有容器列表："
 docker ps -a
 
+#!/bin/bash
+
 # 提示用户输入容器名称和监控时间间隔
 read -p "请输入要监控的容器名称: " CONTAINER_NAME
 read -p "请输入监控时间间隔 (分钟): " INTERVAL
@@ -28,42 +30,44 @@ echo "监控日志将保存到: $LOG_FILE"
 cat << EOF > "$SCRIPT_FILE"
 #!/bin/bash
 
-# 容器名称
-CONTAINER_NAME="$CONTAINER_NAME"
-
-# 健康检查命令
-HEALTH_CHECK_CMD="docker inspect --format='{{.State.Status}}' \$CONTAINER_NAME"
-
-# 检查容器健康状态
-HEALTH_STATUS=\$(eval \$HEALTH_CHECK_CMD)
+# 获取容器的运行状态
+CONTAINER_STATUS=\$(docker inspect --format='{{.State.Status}}' $CONTAINER_NAME)
 
 # 获取当前时间
 CURRENT_TIME=\$(date +"%Y-%m-%d %H:%M:%S")
 
 # 将检查结果输出到日志文件
-echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康状态：\$HEALTH_STATUS" >> "$LOG_FILE"
+echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 运行状态：\$CONTAINER_STATUS" >> "$LOG_FILE"
 
-# 如果健康状态不是 "running"，则重启容器
-if [[ "\$HEALTH_STATUS" != "running" ]]; then
-  echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康检查失败，正在重启..." >> "$LOG_FILE"
-  docker restart \$CONTAINER_NAME
-
-el
-  echo "\$CURRENT_TIME - 容器 \$CONTAINER_NAME 健康检查成功,正在运行...。" >> "$LOG_FILE"
-  exit 0
+# 根据容器的运行状态进行操作
+if [[ "\$CONTAINER_STATUS" != "running" ]]; then
+  echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 不在运行状态，状态为 \$CONTAINER_STATUS，正在尝试重启..." >> "$LOG_FILE"
+  docker start $CONTAINER_NAME
+else
+  echo "\$CURRENT_TIME - 容器 $CONTAINER_NAME 正在运行中。" >> "$LOG_FILE"
 fi
 EOF
 
-# 赋予脚本可执行权限
-chmod +x "$SCRIPT_FILE"
+# 定义新的 cron 任务
+NEW_CRON_JOB="*/$INTERVAL * * * * bash $PWD/$SCRIPT_FILE"
 
-# 使用 crontab 定期执行脚本
-crontab -l | { cat; echo "*/$INTERVAL * * * * ./$SCRIPT_FILE"; } | crontab -
+# 检查 crontab 是否已经包含这个任务
+crontab -l | grep -Fq "$NEW_CRON_JOB"
+
+# $? 是上一个命令的退出状态。0 表示找到了，非0 表示没有找到
+if [ $? -eq 0 ]; then
+    echo "Cron job already exists, not adding again."
+else
+    # 如果任务不存在，添加到 crontab
+    (crontab -l 2>/dev/null; echo "$NEW_CRON_JOB") | crontab -
+    echo "Cron job added."
+fi
 
 # 执行脚本一次
-./"$SCRIPT_FILE"
+bash "$SCRIPT_FILE"
 
 echo "监控已启动，请查看日志文件 $LOG_FILE 获取详细信息。"
+
 read -p "是否现在查看日志文件？(y/n): " VIEW_LOG
 if [[ "$VIEW_LOG" == "y" ]]; then
   cat "$LOG_FILE"
