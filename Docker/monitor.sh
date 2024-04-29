@@ -56,11 +56,11 @@ crontab -l | grep -Fq "$NEW_CRON_JOB"
 
 # $? 是上一个命令的退出状态。0 表示找到了，非0 表示没有找到
 if [ $? -eq 0 ]; then
-    echo "Cron job already exists, not adding again."
+    echo "\$CURRENT_TIME - 定时任务已经存在,不需要重新添加."
 else
     # 如果任务不存在，添加到 crontab
     (crontab -l 2>/dev/null; echo "$NEW_CRON_JOB") | crontab -
-    echo "Cron job added."
+    echo "\$CURRENT_TIME - 容器 ${CONTAINER_NAME} 监控任务添加成功." >> "$LOG_FILE" 
 fi
 
 # 执行脚本一次
