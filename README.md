@@ -31,7 +31,11 @@ All the mining's scripts used for the Ubuntu 22.x linux distribution. if you wan
 2. If you're in China region, please use this:  
    1. `curl -fsSL https://raw.gitmirror.com/xiaoliwe/mining/main/Docker/install.sh | sudo bash`   
 3. The monitor script of docker  
-   `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/monitor.sh)"`  `    
+   `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/monitor.sh)"`  ` 
+
+4. The update docker's source:  
+   `curl -fsSL https://raw.githubusercontent.com/xiaoliwe/mining/main/Docker/proxy.sh | sudo bash`     
+   
    
 
 ### For TitanNetwork Mining  
